@@ -87,7 +87,8 @@ app.post('/user', (req, res) => {
 
 
 const createUser = async ({ username, firstname, lastname, email, mobile }) => {
-    const result = await pool.query(`insert into user(username, firstname, lastname, email, mobile) values(?,?,?,?,?)`, [username, firstname, lastname, email, mobile]);
+    const cdate = new Date();
+    const result = await pool.query(`insert into user(username, firstname, lastname, email, mobile, datecreated, datemodified) values(?,?,?,?,?,?,?)`, [username, firstname, lastname, email, mobile, cdate.timestamp(), cdate.timestamp()]);
     return result;
 }
 
@@ -167,3 +168,16 @@ const deleteUserById = async (userid) => {
     const result = await pool.query(`update user set deleted = '1', datedeleted = CURRENT_TIMESTAMP  where userid = ? and deleted = '0'`, [userid]);
     return result;
 }
+
+Date.prototype.timestamp = function() {
+    var yy = this.getFullYear();
+    var mm = this.getMonth() + 1;
+    mm = pad_with('0',mm,2);
+    var dd  = pad_with('0',this.getDate(),2);
+    var hh  = pad_with('0',this.getHours(),2);
+    var ii  = pad_with('0',this.getMinutes(),2);
+    var ss  = pad_with('0',this.getSeconds(),2);
+    var ms  = pad_with('0',this.getMilliseconds(),3);
+
+    return "".concat(yy).concat('-').concat(mm).concat('-').concat(dd).concat(' ').concat(hh).concat(':').concat(ii).concat(':').concat(ss);//.concat(':').concat(ms);
+};
