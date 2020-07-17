@@ -6,7 +6,7 @@ const pool = mysql.createPool({
     host: 'us-cdbr-east-02.cleardb.com',
     user: 'bbfcc1a6456a4e',
     password: 'b9a18c30',
-    database: 'indracrudtest',
+    database: 'heroku_d2565a0b40c1666',
     debug: true
 })
 
